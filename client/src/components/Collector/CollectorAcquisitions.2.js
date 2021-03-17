@@ -6,12 +6,11 @@ import ArtworkView from "./ArtworkView";
 import {
   fetchAllAcquisitions,
   makingCollectorDecision,
-  sendMessageCollector
+  sendMessageCollector,
 } from "../../api/service";
 import image from "./image-default.png";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
-
 
 const CollectorAcquisitions2 = (props) => {
   const thClass =
@@ -20,8 +19,8 @@ const CollectorAcquisitions2 = (props) => {
     "px-4 py-8 border-b uppercase border-gray-900 text-sm border-l-0 border-r-0";
   const trClass = "border-black border-l-0 border-r-0";
 
-  const thClassR =
-    " py-6 text-left text-black text-sm font-medium border-l-0 border-r-0";
+  // const thClassR =
+  //   " py-6 text-left text-black text-sm font-medium border-l-0 border-r-0";
   const tdClassR =
     "text-left px-4 py-8 border-b border-gray-900 text-sm border-l-0 border-r-0";
   const trClassR = "border-black border-l-0 border-r-0";
@@ -32,7 +31,6 @@ const CollectorAcquisitions2 = (props) => {
   const [activeAcquisition, setActiveAcquisition] = useState(null);
   const [isViewArtistDetails, setIsViewArtistDetails] = useState(false);
   const [message, setMessage] = useState("");
-
 
   useEffect(() => {
     async function fetchData() {
@@ -74,7 +72,11 @@ const CollectorAcquisitions2 = (props) => {
   };
 
   const sendingMessage = async () => {
-    const data = { message: message, requestId: activeAcquisition._id, galleryId: activeAcquisition.gallery._id };
+    const data = {
+      message: message,
+      requestId: activeAcquisition._id,
+      galleryId: activeAcquisition.gallery._id,
+    };
     const resDataAPI = await sendMessageCollector(data);
     if (resDataAPI) {
       const newActiveAcquisition = { ...activeAcquisition };
@@ -105,26 +107,26 @@ const CollectorAcquisitions2 = (props) => {
 
   const pendingRequest = acquisitions.length
     ? acquisitions
-      .filter((acquisition) => acquisition.status === "Pending")
-      .map((acquisition, index) => {
-        return (
-          <tr key={index} className={trClass}>
-            <td className={tdClass}>
-              <span className="status-pending">PENDING</span>
-            </td>
-            <td className={tdClass}>{acquisition.gallery.name}</td>
-            <td className={tdClass}>
-              {acquisition.preferredArtist
-                ? acquisition.preferredArtist.name
-                : "No Preferred artist"}
-            </td>
-            <td className={tdClass}>{acquisition.medium}</td>
-            <td className={tdClass}>{acquisition.budget}K€</td>
-            <td className={tdClass}>{timeRemain(acquisition.createdAt)}</td>
-            {/* <td className={tdClass}><button onClick={openRequestDetails('acquisition')} className='openRequest'>OPEN</button></td> */}
-          </tr>
-        );
-      })
+        .filter((acquisition) => acquisition.status === "Pending")
+        .map((acquisition, index) => {
+          return (
+            <tr key={index} className={trClass}>
+              <td className={tdClass}>
+                <span className="status-pending">PENDING</span>
+              </td>
+              <td className={tdClass}>{acquisition.gallery.name}</td>
+              <td className={tdClass}>
+                {acquisition.preferredArtist
+                  ? acquisition.preferredArtist.name
+                  : "No Preferred artist"}
+              </td>
+              <td className={tdClass}>{acquisition.medium}</td>
+              <td className={tdClass}>{acquisition.budget}K€</td>
+              <td className={tdClass}>{timeRemain(acquisition.createdAt)}</td>
+              {/* <td className={tdClass}><button onClick={openRequestDetails('acquisition')} className='openRequest'>OPEN</button></td> */}
+            </tr>
+          );
+        })
     : null;
 
   const checkOfferStatus = (offerStatus) => {
@@ -149,62 +151,62 @@ const CollectorAcquisitions2 = (props) => {
 
   const inProgessRequest = acquisitions.length
     ? acquisitions
-      .filter((acquisition) => acquisition.status === "In Progress")
-      .map((acquisition, index) => {
-        return (
-          <tr key={index} className={trClass}>
-            <td className={tdClass}>
-              {checkOfferStatus(acquisition.offerStatus)}
-            </td>
-            <td className={tdClass}>{acquisition.gallery.name}</td>
-            <td className={tdClass}>
-              {acquisition.offeredArtwork.artist.name}
-            </td>
-            <td className={tdClass}>{acquisition.offeredArtwork.title}</td>
-            <td className={tdClass}>{acquisition.offeredArtwork.price}K€</td>
-            <td className={tdClass}>{timeRemain(acquisition.createdAt)}</td>
-            {acquisition.offerStatus === "Sent" ? (
+        .filter((acquisition) => acquisition.status === "In Progress")
+        .map((acquisition, index) => {
+          return (
+            <tr key={index} className={trClass}>
               <td className={tdClass}>
-                <button
-                  onClick={() => (
-                    setActiveAcquisition(acquisition), openRequestDetails()
-                  )}
-                  className="btnAccept"
-                >
-                  ACCEPT/CANCEL
+                {checkOfferStatus(acquisition.offerStatus)}
+              </td>
+              <td className={tdClass}>{acquisition.gallery.name}</td>
+              <td className={tdClass}>
+                {acquisition.offeredArtwork.artist.name}
+              </td>
+              <td className={tdClass}>{acquisition.offeredArtwork.title}</td>
+              <td className={tdClass}>{acquisition.offeredArtwork.price}K€</td>
+              <td className={tdClass}>{timeRemain(acquisition.createdAt)}</td>
+              {acquisition.offerStatus === "Sent" ? (
+                <td className={tdClass}>
+                  <button
+                    onClick={() => (
+                      setActiveAcquisition(acquisition), openRequestDetails()
+                    )}
+                    className="btnAccept"
+                  >
+                    ACCEPT/CANCEL
                   </button>
-              </td>
-            ) : (
-              <td className={tdClass}>
-                <button className="openRequest-green">PAY</button>
-              </td>
-            )}
-          </tr>
-        );
-      })
+                </td>
+              ) : (
+                <td className={tdClass}>
+                  <button className="openRequest-green">PAY</button>
+                </td>
+              )}
+            </tr>
+          );
+        })
     : null;
 
   const confirmedRequest = acquisitions.length
     ? acquisitions
-      .filter((acquisition) => acquisition.status === "Confirmed")
-      .map((acquisition, index) => {
-        return (
-          <tr key={index} className={trClass}>
-            <td className={tdClass}>
-              {checkConfirmedRequest(acquisition.offerStatus)}
-            </td>
-            <td className={tdClass}>{acquisition.gallery.name}</td>
-            <td className={tdClass}>
-              {acquisition.offeredArtwork.artist.name}
-            </td>
-            <td className={tdClass}>{acquisition.offeredArtwork.title}</td>
-            <td className={tdClass}>{acquisition.offeredArtwork.price}K€</td>
-            <td className={tdClass}>
-              <button className="openRequest">VIEW</button>
-            </td>
-          </tr>
-        );
-      })
+        .filter((acquisition) => acquisition.status === "Confirmed")
+        .map((acquisition, index) => {
+          return (
+            <tr key={index} className={trClass}>
+              <td className={tdClass}>
+                {checkConfirmedRequest(acquisition.offerStatus)}
+              </td>
+              <td className={tdClass}>{acquisition.gallery.name}</td>
+              <td className={tdClass}>
+                {acquisition.offeredArtwork.artist.name}
+              </td>
+              <td className={tdClass}>{acquisition.offeredArtwork.title}</td>
+              <td className={tdClass}>{acquisition.offeredArtwork.price}K€</td>
+              <td className={tdClass}>
+                <button className="openRequest">VIEW</button>
+              </td>
+            </tr>
+          );
+        })
     : null;
 
   const dateConverter = (mongoDate) => {
@@ -304,19 +306,26 @@ const CollectorAcquisitions2 = (props) => {
           </div>
         </td>
       </tr>
-      {activeAcquisition.messages.length > 2 ? activeAcquisition.messages.map((message, index) => {
-        if (index < 2) return null;
-        return <tr className={trClassR}>
-          <td className={tdClassR}>
-            <div>{message.sender === "Collector" ? `${activeAcquisition.collector.firstName} ${activeAcquisition.collector.lastName}` : activeAcquisition.gallery.name}</div>
-            <div>{dateConverter(message.createdAt)}</div>
-          </td>
-          <td className={tdClassR}>
-            <article>{message.message}</article>
-          </td>
-        </tr>
-      }
-      ) : null}
+      {activeAcquisition.messages.length > 2
+        ? activeAcquisition.messages.map((message, index) => {
+            if (index < 2) return null;
+            return (
+              <tr className={trClassR}>
+                <td className={tdClassR}>
+                  <div>
+                    {message.sender === "Collector"
+                      ? `${activeAcquisition.collector.firstName} ${activeAcquisition.collector.lastName}`
+                      : activeAcquisition.gallery.name}
+                  </div>
+                  <div>{dateConverter(message.createdAt)}</div>
+                </td>
+                <td className={tdClassR}>
+                  <article>{message.message}</article>
+                </td>
+              </tr>
+            );
+          })
+        : null}
       <tr>
         <td></td>
         <td>
@@ -324,9 +333,15 @@ const CollectorAcquisitions2 = (props) => {
             <b>SEND A MESSAGE</b>
           </div>
           <div className="accquisitions-message-container">
-            <textarea onChange={(e) => setMessage(e.target.value)} value={message} rows="6"></textarea>
+            <textarea
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
+              rows="6"
+            ></textarea>
           </div>
-          <button onClick={sendingMessage} className="openRequest">SEND MESSAGE</button>
+          <button onClick={sendingMessage} className="openRequest">
+            SEND MESSAGE
+          </button>
         </td>
       </tr>
     </>
@@ -339,10 +354,13 @@ const CollectorAcquisitions2 = (props) => {
           <div className="collector-name">
             <h1>{props.collectorName}</h1>
             <div>
-              <Link to='/collector/request'>
+              <Link to="/collector/request">
                 <button className="btnPrivate">MAKE A PRIVATE SALE</button>
               </Link>
-              <Link to='/collector/request'><button className="btnPrivate">REQUEST A SPECIAL SOURCING</button>
+              <Link to="/collector/request">
+                <button className="btnPrivate">
+                  REQUEST A SPECIAL SOURCING
+                </button>
               </Link>
             </div>
           </div>
@@ -352,10 +370,9 @@ const CollectorAcquisitions2 = (props) => {
           <CollectorSideBar content="my-acquisitions" />
           <div id="formContainerField">
             <div className="personalInformation">
-              <h1 className="title-text" >ACQUISITIONS</h1>
+              <h1 className="title-text">ACQUISITIONS</h1>
               <hr />
-              <div className="btnContainer">
-              </div>
+              <div className="btnContainer"></div>
             </div>
 
             {isViewArtistDetails ? (

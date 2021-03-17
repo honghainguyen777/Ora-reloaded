@@ -32,16 +32,15 @@ const CollectorProfile = (props) => {
   const [checkedRel, setCheckedRel] = useState("");
 
   const onChange = (event) => {
-
     const { name, value } = event.target;
     setData({ ...data, [name]: value.toUpperCase() });
   };
 
-  const Checkbox = ({ type = "radio", name, checked = false, onChange }) => {
-    return (
-      <input type={type} name={name} checked={checked} onChange={onChange} />
-    );
-  };
+  // const Checkbox = ({ type = "radio", name, checked = false, onChange }) => {
+  //   return (
+  //     <input type={type} name={name} checked={checked} onChange={onChange} />
+  //   );
+  // };
 
   const handleCheckboxRel = (event) => {
     //behaviour
@@ -98,7 +97,11 @@ const CollectorProfile = (props) => {
         <div className="collectorHeader">
           <div className="collector-name">
             <h1>{`${data.firstName} ${data.lastName}`}</h1>
-            <Link to='/collector/acquisitions'><button className="btnPrivate">MAKE A PRIVATE SALES REQUEST</button></Link>
+            <Link to="/collector/acquisitions">
+              <button className="btnPrivate">
+                MAKE A PRIVATE SALES REQUEST
+              </button>
+            </Link>
           </div>
           <hr />
         </div>
@@ -106,7 +109,7 @@ const CollectorProfile = (props) => {
           <CollectorSideBar content="my-collector-profile" />
           <div id="formContainerField">
             <div className="personalInformation">
-              <h1 className="title-text" >PERSONAL INFORMATION</h1>
+              <h1 className="title-text">PERSONAL INFORMATION</h1>
               <hr />
               <div className="btnContainer">
                 <button className="btn-edit" onClick={startEditing}>
@@ -210,20 +213,23 @@ const CollectorProfile = (props) => {
               <h1>COLLECTOR DATA</h1>
             </div>
             <hr />
-            <div className='collector-type'>
-              <span >COLLECTOR TYPE/ </span>
+            <div className="collector-type">
+              <span>COLLECTOR TYPE/ </span>
               {isEditMode ? (
                 <div className="behaviourCheck">
                   {relCheckboxes.map((item, key) => (
                     <>
-                      <input key={key}
+                      <input
+                        key={key}
                         type="radio"
                         id={key}
                         name={item.name}
                         onChange={handleCheckboxRel}
                         checked={checkedRel === item.name}
                       />
-                      <label key={key} htmlFor={key}>{item.name}</label>
+                      <label key={key} htmlFor={key}>
+                        {item.name}
+                      </label>
                       {/* <label htmlFor={key} key={item.key}>
                           {item.name}
                         </label>
@@ -237,15 +243,22 @@ const CollectorProfile = (props) => {
                   ))}
                 </div>
               ) : (
-                <span style={{ width: "65vw", textAlign: "start", textTransform: 'uppercase' }}> {data.behaviour} </span>
+                <span
+                  style={{
+                    width: "65vw",
+                    textAlign: "start",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {" "}
+                  {data.behaviour}{" "}
+                </span>
               )}
             </div>
             <div>
               <div className="input-container-half budget">
                 {/* should not display even in edit */}
-                <span id="bugetLabel">
-                  I SPEND APPROXIMATELY (k€/Y) ON ART
-                    </span>
+                <span id="bugetLabel">I SPEND APPROXIMATELY (k€/Y) ON ART</span>
                 {isEditMode ? (
                   <input
                     type="number"
@@ -261,9 +274,7 @@ const CollectorProfile = (props) => {
               </div>
             </div>
             <div id="newsBool">
-              <span className="input-label">
-                NEWSLETTER /
-                </span>
+              <span className="input-label">NEWSLETTER /</span>
               {isEditMode ? (
                 <>
                   <input
@@ -290,10 +301,7 @@ const CollectorProfile = (props) => {
               )}
             </div>
             {isEditMode ? (
-              <button
-                id="saveButton"
-                onClick={submitHandler}
-              >
+              <button id="saveButton" onClick={submitHandler}>
                 SAVE CHANGES
               </button>
             ) : null}

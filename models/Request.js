@@ -1,44 +1,49 @@
 const { Schema, model } = require("mongoose");
 
-const requestSchema = new Schema({
-  collector: {
-    type: Schema.Types.ObjectId,
-    ref: 'Collector'
-  },
-  // preferredArtists: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Artist'
-  // }],
-  preferredArtist: {
-    type: Schema.Types.ObjectId,
-    ref: 'Artist'
-  },
-  gallery: {
-    type: Schema.Types.ObjectId,
-    ref: 'Gallery'
-  },
-  status: {
+const requestSchema = new Schema(
+  {
+    collector: {
+      type: Schema.Types.ObjectId,
+      ref: "Collector",
+    },
+    // preferredArtists: [{
+    //   type: Schema.Types.ObjectId,
+    //   ref: 'Artist'
+    // }],
+    preferredArtist: {
+      type: Schema.Types.ObjectId,
+      ref: "Artist",
+    },
+    gallery: {
+      type: Schema.Types.ObjectId,
+      ref: "Gallery",
+    },
+    status: {
+      type: String,
+      enum: ["Pending", "In Progress", "Confirmed"],
+      default: "Pending",
+    },
+    offeredArtwork: {
+      type: Schema.Types.ObjectId,
+      ref: "Artwork",
+    },
+    offerStatus: {
+      type: String,
+      enum: ["Sent", "Accepted", "Cancelled", "Paid"],
+    },
+    messages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Message",
+      },
+    ],
+    suggestion: Boolean,
     type: String,
-    enum: ["Pending", "In Progress", "Confirmed"],
-    default: "Pending"
+    medium: String,
+    budget: Number,
   },
-  offeredArtwork: {
-    type: Schema.Types.ObjectId,
-    ref: "Artwork"
-  },
-  offerStatus: {
-    type: String,
-    enum: ["Sent", "Accepted", "Cancelled", "Paid"]
-  },
-  messages: [{
-    type: Schema.Types.ObjectId,
-    ref: "Message"
-  }],
-  suggestion: Boolean,
-  type: String,
-  medium: String,
-  budget: Number,
-}, { timestamps: true });
+  { timestamps: true }
+);
 
 const Request = model("Request", requestSchema);
 

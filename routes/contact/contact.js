@@ -3,9 +3,9 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.office365.com",  
+  host: "smtp.office365.com",
   secureConnection: true,
-  port:587,
+  port: 587,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASS,
@@ -14,15 +14,15 @@ const transporter = nodemailer.createTransport({
 
 transporter.verify(function (err, success) {
   if (err) {
-    console.log('not found error? ' + err);
+    console.log("not found error? " + err);
   } else {
-    console.log("Server is ready to take our messages")
+    console.log("Server is ready to take our messages");
   }
-})
+});
 
-router.post('/', (req, res) => {
-  const { name, email, topic, body } = req.body
-  const name2 = `${name} <${email}>`
+router.post("/", (req, res) => {
+  const { name, email, topic, body } = req.body;
+  const name2 = `${name} <${email}>`;
   const mail = {
     from: name,
     replyTo: email,

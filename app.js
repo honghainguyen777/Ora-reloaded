@@ -1,5 +1,5 @@
 // ℹ️ Gets access to environment variables/settings
-const cors = require('cors');
+const cors = require("cors");
 // https://www.npmjs.com/package/dotenv
 require("dotenv/config");
 
@@ -27,35 +27,33 @@ const app = express();
 // ℹ️ This function is getting exported from the config folder. It runs most middlewares
 require("./config")(app);
 
-
 // session configuration
-const session = require('express-session');
+const session = require("express-session");
 // session store using mongo
-const MongoStore = require('connect-mongo').default;
+const MongoStore = require("connect-mongo").default;
 
-const mongoose = require('./db/index');
-
+const mongoose = require("./db/index");
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 * 60 * 24 },
-    //Forces the session to be saved back to the session store, 
+    //Forces the session to be saved back to the session store,
     // even if the session was never modified during the request.
     resave: true,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/prototype"
-    })
+      mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/prototype",
+    }),
   })
-)
+);
 // end of session configuration
 
 // passport configuration
-const User = require('./models/User.model');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+const User = require("./models/User.model");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcrypt");
 
 // we serialize only the `_id` field of the user to keep the information stored minimum
 passport.serializeUser((user, done) => {
@@ -65,10 +63,10 @@ passport.serializeUser((user, done) => {
 // when we need the information for the user, the deserializeUser function is called with the id that we previously serialized to fetch the user from the database
 passport.deserializeUser((id, done) => {
   User.findById(id)
-    .then(dbUser => {
+    .then((dbUser) => {
       done(null, dbUser);
     })
-    .catch(err => {
+    .catch((err) => {
       done(err);
     });
 });
@@ -77,23 +75,23 @@ passport.use(
   new LocalStrategy((username, password, done) => {
     // login
     User.findOne({ username: username })
-      .then(userFromDB => {
+      .then((userFromDB) => {
         if (userFromDB === null) {
           // there is no user with this username
-          done(null, false, { message: 'Wrong Credentials' });
+          done(null, false, { message: "Wrong Credentials" });
         } else if (!bcrypt.compareSync(password, userFromDB.password)) {
           // the password is not matching
-          done(null, false, { message: 'Wrong Credentials' });
+          done(null, false, { message: "Wrong Credentials" });
         } else {
           // the userFromDB should now be logged in
-          done(null, userFromDB)
+          done(null, userFromDB);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
+      });
   })
-)
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -105,44 +103,41 @@ app.use(passport.session());
 const allRoutes = require("./routes");
 app.use("/api", allRoutes);
 
-const auth = require('./routes/auth/auth');
+const auth = require("./routes/auth/auth");
 app.use("/api/auth", auth);
 
-const newsletter = require('./routes/newsletter/newsletter');
+const newsletter = require("./routes/newsletter/newsletter");
 app.use("/api/newsletter", newsletter);
 
-const gallery = require('./routes/gallery/gallery');
+const gallery = require("./routes/gallery/gallery");
 app.use("/api/gallery/profile", gallery);
 
-const sales = require('./routes/gallery/sales');
+const sales = require("./routes/gallery/sales");
 app.use("/api/gallery/sales", sales);
 
-const inventory = require('./routes/gallery/inventory');
+const inventory = require("./routes/gallery/inventory");
 app.use("/api/gallery/inventory", inventory);
 
-const artists = require('./routes/artists/artists');
+const artists = require("./routes/artists/artists");
 app.use("/api/gallery/artists", artists);
 
-const acquisitions = require('./routes/collector/acquisitions');
+const acquisitions = require("./routes/collector/acquisitions");
 app.use("/api/collector/acquisitions", acquisitions);
 
-const contact = require('./routes/contact/contact');
+const contact = require("./routes/contact/contact");
 app.use("/api/contact", contact);
 
-const collector = require('./routes/collector/collector');
+const collector = require("./routes/collector/collector");
 app.use("/api/collector/profile", collector);
 
-
-
 // app.js
-const path = require('path');
+const path = require("path");
 app.use(express.static(path.join(__dirname, "/client/build")));
 
 app.use((req, res) => {
   // If no routes match, send them the React HTML.
   res.sendFile(__dirname + "/client/build/index.html");
 });
-
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

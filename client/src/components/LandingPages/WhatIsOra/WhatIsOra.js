@@ -11,7 +11,7 @@ export default function WhatIsOra() {
       <div>
         <div id="zero">
           <div id="textTopAbout">
-          <h3>                                     </h3>
+            <h3> </h3>
             <h1>
               {" "}
               ORA is the only platform connecting artists, curators,
@@ -26,7 +26,6 @@ export default function WhatIsOra() {
               Our vision is to build a circular economy for the art world, with
               artists at its center.
             </h2>
-            
           </div>
           <button className="btnBlack">GET IN TOUCH FOR MORE INFOS</button>
         </div>
@@ -48,14 +47,14 @@ export default function WhatIsOra() {
                   </p>
                   <h1 className="textNotActivated">GALLERIES & COLLECTORS</h1>
                 </div>
-                <div className="numberAndText" className="lastElement">
+                <div className="numberAndText, lastElement">
                   <p className="numberNotActivated">
                     <a href="#three">3</a>
                   </p>
                   <h1 className="textNotActivated">A CIRCULAR ECONOMY</h1>
                 </div>
               </div>
-              <img src={whatIsOra1} />
+              <img src={whatIsOra1} alt=""/>
             </div>
             <div className="textSection">
               <h1>
@@ -69,8 +68,11 @@ export default function WhatIsOra() {
                 <br /> <br /> in production, diffusion and sales.{" "}
               </p>
               <a href="/artist-open-call">
-                <br />   <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "}+ Visit our artist open call to find out more.</span>
+                <br />{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  + Visit our artist open call to find out more.
+                </span>
               </a>
             </div>
           </section>
@@ -92,14 +94,14 @@ export default function WhatIsOra() {
                   </p>
                   <h1 className="textActivated">GALLERIES & COLLECTORS</h1>
                 </div>
-                <div className="numberAndText" className="lastElement">
+                <div className="numberAndText lastElement">
                   <p className="numberNotActivated">
                     <a href="#three">3</a>
                   </p>
                   <h1 className="textNotActivated">A CIRCULAR ECONOMY</h1>
                 </div>
               </div>
-              <img src={whatIsOra2} />
+              <img src={whatIsOra2} alt=""/>
             </div>
             <div className="textSection">
               <h1>
@@ -110,55 +112,92 @@ export default function WhatIsOra() {
                 {" "}
                 While galleries and collectors can contribute to ORA’s
                 incubator’s activities, <br /> <br /> they also gain access to
-                our   <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "}free digital portal </span> : <br /> <br /> ORA’s collector space is
-                a   <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "} curated, transparent and secure end-to-end sales  <br /> <br />{" "}
-                solution.</span> It provides all types of collectors a simple way to
-                connect with an international <br /> <br /> audience of
-                contemporary art galleries for private artwork acquisitions.{" "}
+                our{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  free digital portal{" "}
+                </span>{" "}
+                : <br /> <br /> ORA’s collector space is a{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  curated, transparent and secure end-to-end sales <br /> <br />{" "}
+                  solution.
+                </span>{" "}
+                It provides all types of collectors a simple way to connect with
+                an international <br /> <br /> audience of contemporary art
+                galleries for private artwork acquisitions.{" "}
               </p>
               <a href="/collector-space">
-                <br /> <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "}+ Visit our collector space to find out more. </span>
+                <br />{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  + Visit our collector space to find out more.{" "}
+                </span>
               </a>
             </div>
           </section>
           <hr></hr>
-           <section id="three" className="aboutSection">
+          <section id="three" className="aboutSection">
             <div className="sideClass">
-                <div className="sideSelector" id="side1">
-                    <div className="numberAndText">
-                        <p className="numberNotActivated"><a href="#one">1</a></p>
-                        <h1 className="textNotActivated">ARTISTS, CURATORS <br/>& INSTITUTIONS</h1>
-                    </div>
-                    <div className="numberAndText">
-                        <p className="numberNotActivated"><a href="#two">2</a></p>
-                        <h1 className="textNotActivated">GALLERIES & COLLECTORS</h1>
-                    </div>
-                    <div className="numberAndText lastElement">
-                        <p className="numberActivated"><a href="#three">3</a></p>
-                        <h1 className="textActivated">A CIRCULAR ECONOMY</h1>
-                    </div>
+              <div className="sideSelector" id="side1">
+                <div className="numberAndText">
+                  <p className="numberNotActivated">
+                    <a href="#one">1</a>
+                  </p>
+                  <h1 className="textNotActivated">
+                    ARTISTS, CURATORS <br />& INSTITUTIONS
+                  </h1>
                 </div>
-                <img src={whatIsOra3} />
+                <div className="numberAndText">
+                  <p className="numberNotActivated">
+                    <a href="#two">2</a>
+                  </p>
+                  <h1 className="textNotActivated">GALLERIES & COLLECTORS</h1>
+                </div>
+                <div className="numberAndText lastElement">
+                  <p className="numberActivated">
+                    <a href="#three">3</a>
+                  </p>
+                  <h1 className="textActivated">A CIRCULAR ECONOMY</h1>
+                </div>
+              </div>
+              <img src={whatIsOra3} alt=""/>
             </div>
             <div className="textSection">
-                <h1>ORA is based on a circular business<br/> model which carries positive <br/> social impact </h1>
-                <p> We stand for a new type of business model : <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "} profits from our commercial <br/> <br/> activities are
-                    reinvested into our not-for-profit’s production capital. </span> These <br/> <br/> funds are made available
-                    for artists to implement their projects. <br/><br/><br/> In this way, whether you are an artist, a
-                    curator, an institution, a gallery or a collector, <br/> <br/> <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "} any action you carry out through ORA
-                    directly supports artistic creation. </span> </p>
-                <a href="/artist-open-call"><br/> <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
-                {" "}+ Visit our artist open call to find out more.</span> </a>
+              <h1>
+                ORA is based on a circular business
+                <br /> model which carries positive <br /> social impact{" "}
+              </h1>
+              <p>
+                {" "}
+                We stand for a new type of business model :{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  profits from our commercial <br /> <br /> activities are
+                  reinvested into our not-for-profit’s production capital.{" "}
+                </span>{" "}
+                These <br /> <br /> funds are made available for artists to
+                implement their projects. <br />
+                <br />
+                <br /> In this way, whether you are an artist, a curator, an
+                institution, a gallery or a collector, <br /> <br />{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  any action you carry out through ORA directly supports
+                  artistic creation.{" "}
+                </span>{" "}
+              </p>
+              <a href="/artist-open-call">
+                <br />{" "}
+                <span style={{ fontFamily: "akzidenz-grotesk_probold" }}>
+                  {" "}
+                  + Visit our artist open call to find out more.
+                </span>{" "}
+              </a>
             </div>
-        </section> 
+          </section>
         </div>
-      </div>
-      {" "}
+      </div>{" "}
     </div>
   );
 }

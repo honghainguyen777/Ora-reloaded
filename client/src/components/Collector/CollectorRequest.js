@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./CollectorRequest.css";
 import CollectorSideBar from "../CollectorSideBar/CollectorSideBar";
-import { fetchAllGalleries, fetchCollectorName, sendRequestToGallery } from '../../api/service';
-import { withRouter } from 'react-router-dom';
+import {
+  fetchAllGalleries,
+  sendRequestToGallery,
+} from "../../api/service";
+import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const CollectorRequest = (props) => {
@@ -14,7 +17,7 @@ const CollectorRequest = (props) => {
     budget: 10,
     gallery: null,
     requestMessage: "",
-    name: ""
+    name: "",
   };
 
   const [data, setData] = useState(initialState);
@@ -31,8 +34,6 @@ const CollectorRequest = (props) => {
     }
     fetchData();
   }, []);
-
-
 
   const onChange = (event) => {
     const { name, value } = event.target;
@@ -57,7 +58,6 @@ const CollectorRequest = (props) => {
       alert("Sometime when wrong with our server");
     }
     setData(initialState);
-
   };
 
   return (
@@ -66,7 +66,9 @@ const CollectorRequest = (props) => {
         <div className="collectorHeader">
           <div className="collector-name">
             <h1>{props.collectorName}</h1>
-            <Link to='/collector/request'><button className="btnPrivate">FOLLOW YOUR REQUESTS</button></Link>
+            <Link to="/collector/request">
+              <button className="btnPrivate">FOLLOW YOUR REQUESTS</button>
+            </Link>
           </div>
           <hr />
         </div>
@@ -74,44 +76,89 @@ const CollectorRequest = (props) => {
           <CollectorSideBar content="create-request" />
           <div className="collector-request">
             <div className="collector-request-header">
-              <div className="header-text">Welcome to private sales ! Thanks to this feature, you can directly connect with</div>
-              <div className="header-text">each of our partner galleries to find out about their available artworks.</div>
+              <div className="header-text">
+                Welcome to private sales ! Thanks to this feature, you can
+                directly connect with
+              </div>
+              <div className="header-text">
+                each of our partner galleries to find out about their available
+                artworks.
+              </div>
             </div>
             <div className="collector-request-title">
               <hr />
               <span className="collector-title-text">
-                Are you interested in a particular artist represented by one of ORA’s partner galleries ?
-            </span>
+                Are you interested in a particular artist represented by one of
+                ORA’s partner galleries ?
+              </span>
             </div>
             <div className="presented-galleries-selection">
               <div className="search-for-artist">
                 <div className="text-label">YES, TYPE IN ARTIST/ </div>
-                <input onChange={onChange} value={data.artist} type="text" className="collector-artist-search" placeholder="TYPE HERE" name="artist" />
+                <input
+                  onChange={onChange}
+                  value={data.artist}
+                  type="text"
+                  className="collector-artist-search"
+                  placeholder="TYPE HERE"
+                  name="artist"
+                />
               </div>
               <div className="receive-suggestion">
-                <input type="checkbox" id="receive-suggestion" name="suggestion" onChange={onChange} checked={data.suggestion} />
-                <label className="label-button-like" htmlFor="receive-suggestion">NO, I WOULD LIKE TO RECEIVE SOME SUGGESTIONS</label>
+                <input
+                  type="checkbox"
+                  id="receive-suggestion"
+                  name="suggestion"
+                  onChange={onChange}
+                  checked={data.suggestion}
+                />
+                <label
+                  className="label-button-like"
+                  htmlFor="receive-suggestion"
+                >
+                  NO, I WOULD LIKE TO RECEIVE SOME SUGGESTIONS
+                </label>
               </div>
             </div>
             <div className="collector-request-title">
               <hr />
               <span className="collector-title-text">
                 Which of the following are you looking for ?
-            </span>
+              </span>
             </div>
             <div className="type-of-artwork">
-              <input type="radio" id="unique" name="type" value="Unique" onChange={onChange} checked={data.type === "Unique"} />
+              <input
+                type="radio"
+                id="unique"
+                name="type"
+                value="Unique"
+                onChange={onChange}
+                checked={data.type === "Unique"}
+              />
               <label htmlFor="unique">
                 <div>
                   <div className="artwork-type-title">A UNIQUE ARTWORK</div>
-                  <div className="artwork-type-remark">(please note unique artworks for name of the artist approximately range from 3keu - 25keu)</div>
+                  <div className="artwork-type-remark">
+                    (please note unique artworks for name of the artist
+                    approximately range from 3keu - 25keu)
+                  </div>
                 </div>
               </label>
-              <input type="radio" id="edition" name="type" value="Editions" onChange={onChange} checked={data.type === "Editions"} />
+              <input
+                type="radio"
+                id="edition"
+                name="type"
+                value="Editions"
+                onChange={onChange}
+                checked={data.type === "Editions"}
+              />
               <label htmlFor="edition">
                 <div>
                   <div className="artwork-type-title">AN EDITION</div>
-                  <div className="artwork-type-remark">(please note editions for name of the artist approximately range from 1k to 5k€</div>
+                  <div className="artwork-type-remark">
+                    (please note editions for name of the artist approximately
+                    range from 1k to 5k€
+                  </div>
                 </div>
               </label>
             </div>
@@ -119,44 +166,87 @@ const CollectorRequest = (props) => {
               <hr />
               <span className="collector-title-text">
                 IS THERE A MEDIUM IN WHICH YOU WERE PARTICULARLY INTERESTED IN ?
-            </span>
+              </span>
             </div>
             <div className="type-of-medium">
-              <input type="radio" id="Sculpture" value="Sculpture" onChange={onChange} name="medium" />
+              <input
+                type="radio"
+                id="Sculpture"
+                value="Sculpture"
+                onChange={onChange}
+                name="medium"
+              />
               <label htmlFor="Sculpture">SCULPTURE</label>
-              <input type="radio" id="Painting" value="Painting" onChange={onChange} name="medium" />
+              <input
+                type="radio"
+                id="Painting"
+                value="Painting"
+                onChange={onChange}
+                name="medium"
+              />
               <label htmlFor="Painting">PAINTING</label>
-              <input type="radio" id="Photography" value="Photography" onChange={onChange} name="medium" />
+              <input
+                type="radio"
+                id="Photography"
+                value="Photography"
+                onChange={onChange}
+                name="medium"
+              />
               <label htmlFor="Photography">PHOTOGRAPHY</label>
-              <input type="radio" id="Drawing" value="Drawing" onChange={onChange} name="medium" />
+              <input
+                type="radio"
+                id="Drawing"
+                value="Drawing"
+                onChange={onChange}
+                name="medium"
+              />
               <label htmlFor="Drawing">DRAWING</label>
-              <input type="radio" id="Performance" value="Performance" onChange={onChange} name="medium" />
+              <input
+                type="radio"
+                id="Performance"
+                value="Performance"
+                onChange={onChange}
+                name="medium"
+              />
               <label htmlFor="Performance">PERFORMANCE</label>
             </div>
             <div className="collector-request-title">
               <hr />
               <span className="collector-title-text">
                 WHAT KIND OF BUDGET DO YOU HAVE IN MIND ?
-            </span>
+              </span>
             </div>
             <div className="target-budget-gallery">
               <div className="collector-budget">
                 <div className="text-label">Budget in KEUR/ </div>
-                <input onChange={onChange} value={data.budget} type="number" placeholder="TYPE HERE" name="budget" />
+                <input
+                  onChange={onChange}
+                  value={data.budget}
+                  type="number"
+                  placeholder="TYPE HERE"
+                  name="budget"
+                />
               </div>
             </div>
 
             <div className="collector-request-title">
               <hr />
               <span className="collector-title-text">
-                WHICH OF THE FOLLOWING GALLERIES WOULD YOU LIKE TO ADDRESS THIS REQUEST TO ?
-            </span>
+                WHICH OF THE FOLLOWING GALLERIES WOULD YOU LIKE TO ADDRESS THIS
+                REQUEST TO ?
+              </span>
             </div>
             <div className="target-budget-gallery">
               <div className="collector-gallery">
                 <div className="text-label">Select a gallery/ </div>
                 <select name="gallery" onChange={onChange}>
-                  {galleries ? galleries.map((gallery, index) => <option key={index} value={gallery.id}>{gallery.name}</option>) : null}
+                  {galleries
+                    ? galleries.map((gallery, index) => (
+                        <option key={index} value={gallery.id}>
+                          {gallery.name}
+                        </option>
+                      ))
+                    : null}
                 </select>
               </div>
             </div>
@@ -164,19 +254,29 @@ const CollectorRequest = (props) => {
             <div className="collector-request-title">
               <hr />
               <span className="collector-title-text">
-                DO YOU HAVE ANY OTHER INFORMATION YOU WANTED TO SHARE WITH GALERIE NEU ?
-            </span>
+                DO YOU HAVE ANY OTHER INFORMATION YOU WANTED TO SHARE WITH
+                GALERIE NEU ?
+              </span>
             </div>
             <div className="collector-request-message">
               <div className="collector-text-area"></div>
               <div>
-                <textarea onChange={onChange} value={data.requestMessage} name="requestMessage" id="request-message" rows="8" placeholder="Type your message here"></textarea>
+                <textarea
+                  onChange={onChange}
+                  value={data.requestMessage}
+                  name="requestMessage"
+                  id="request-message"
+                  rows="8"
+                  placeholder="Type your message here"
+                ></textarea>
               </div>
             </div>
             <div className="collector-request-btn-center">
-              <button className='send-request-btn' onClick={submitHandler}> SEND THE REQUEST </button>
+              <button className="send-request-btn" onClick={submitHandler}>
+                {" "}
+                SEND THE REQUEST{" "}
+              </button>
             </div>
-            
           </div>
         </div>
       </div>

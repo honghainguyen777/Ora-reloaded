@@ -1,8 +1,8 @@
-const router = require('express').Router();
-const Artwork = require('../../models/Artwork');
-const Artist = require('../../models/Artist.model');
-const { uploader } = require('../../config/cloudinary');
-const passport = require('passport');
+const router = require("express").Router();
+const Artwork = require("../../models/Artwork");
+const Artist = require("../../models/Artist.model");
+const { uploader } = require("../../config/cloudinary");
+const passport = require("passport");
 const mongoose = require("mongoose");
 
 // middleware
@@ -10,7 +10,7 @@ function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
-    res.status(403).json({message: "Unauthorized"});
+    res.status(403).json({ message: "Unauthorized" });
   }
 }
 
@@ -22,36 +22,44 @@ function mediumFilter(list, regex) {
   return false;
 }
 
-router.get('/', isAuthenticated, async (req, res, next) => {
-  const userId =  req.session.passport.user;
+router.get("/", isAuthenticated, async (req, res, next) => {
+  const userId = req.session.passport.user;
   try {
     // add gallery id into find later
-    const existedArtworks = await Artwork.find({user: userId}).populate("artist");
+    const existedArtworks = await Artwork.find({ user: userId }).populate(
+      "artist"
+    );
     res.status(200).json(existedArtworks);
-  } catch(err) {
-    res.status(500).json({ message: 'Error while attempting to access database' });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error while attempting to access database" });
   }
 });
 
 // Not need, better to perform in the frontend since all artworks are loaded at the first rendering
-router.post('/', isAuthenticated, async (req, res, next) => {
-  const userId =  req.session.passport.user;
+router.post("/", isAuthenticated, async (req, res, next) => {
+  const userId = req.session.passport.user;
   // add gallery id into find later
   const query = req.body.query;
   const sortByPrice = req.body.sortByPrice;
-  
-  let galleryArtworks = await Artwork.find({user: userId}).populate('artist');
+
+  let galleryArtworks = await Artwork.find({ user: userId }).populate("artist");
 
   if (query) {
-    let regex = new RegExp(query, 'i');
-    galleryArtworks = galleryArtworks.filter(artwork => {
-      return artwork.title.match(regex) || mediumFilter(artwork.medium, regex) || artwork.artist.name.match(regex);
+    let regex = new RegExp(query, "i");
+    galleryArtworks = galleryArtworks.filter((artwork) => {
+      return (
+        artwork.title.match(regex) ||
+        mediumFilter(artwork.medium, regex) ||
+        artwork.artist.name.match(regex)
+      );
     });
   }
   if (sortByPrice === "true") {
     galleryArtworks.sort((a, b) => a.price - b.price);
   }
-  
+
   // galleryArtworks = galleryArtworks.filter(ar)
   // const result = await Artwork.aggregate([
   //   { $match: {user: mongoose.Types.ObjectId(userId)}},
@@ -62,33 +70,48 @@ router.post('/', isAuthenticated, async (req, res, next) => {
   // console.log(galleryArtworks);
 
   res.json(galleryArtworks);
-
 });
-
 
 // single image first
-router.post('/new', isAuthenticated, uploader.array('images[]'), async (req, res, next) => {
-  const userId =  req.session.passport.user;
-  // later for gallery_id by as a param or in the request body
-  // add artist Id when Patrick done!
+router.post(
+  "/new",
+  isAuthenticated,
+  uploader.array("images[]"),
+  async (req, res, next) => {
+    const userId = req.session.passport.user;
+    // later for gallery_id by as a param or in the request body
+    // add artist Id when Patrick done!
 
-  // latter for multiple image
-  if (!req.files) return res.status(500).json({message: "Invalid uploaded images", success: false });
-  const images = req.files.map(image => ({imageUrl: image.path, imgPublicId: image.filename}));
-  const data = req.body;
-  data.images = images;
+    // latter for multiple image
+    if (!req.files)
+      return res
+        .status(500)
+        .json({ message: "Invalid uploaded images", success: false });
+    const images = req.files.map((image) => ({
+      imageUrl: image.path,
+      imgPublicId: image.filename,
+    }));
+    const data = req.body;
+    data.images = images;
 
-
-  // delete later, this is just a fake artist - add the real artist
-  // const fakeArtist = await Artist.create({name: "Konad Mayer"});
-  try {
-    const artwork = await (await Artwork.create({...data, user: userId})).populate("artist");
-    res.status(200).json(artwork);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({message: "Error while attempting to access database", success: false});
+    // delete later, this is just a fake artist - add the real artist
+    // const fakeArtist = await Artist.create({name: "Konad Mayer"});
+    try {
+      const artwork = await (
+        await Artwork.create({ ...data, user: userId })
+      ).populate("artist");
+      res.status(200).json(artwork);
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({
+          message: "Error while attempting to access database",
+          success: false,
+        });
+    }
   }
-});
+);
 
 // for editing
 // if (!req.files) return res.status(500).json({message: "Invalid uploaded images", success: false });
@@ -96,40 +119,61 @@ router.post('/new', isAuthenticated, uploader.array('images[]'), async (req, res
 //   data.images.push({imageUrl: image.path, imgPublicId: image.filename});
 // });
 
-router.get('/:id', isAuthenticated, async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const artworkId = req.params.id;
-  const userId =  req.session.passport.user;
+  const userId = req.session.passport.user;
   try {
-    const artwork = await Artwork.findOne({user: userId, _id: artworkId}).populate('artist');
+    const artwork = await Artwork.findOne({
+      user: userId,
+      _id: artworkId,
+    }).populate("artist");
     res.status(200).json(artwork);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: 'Error while attempting to access database' });
+    res
+      .status(500)
+      .json({ message: "Error while attempting to access database" });
   }
 });
 
-router.put('/:id', isAuthenticated, uploader.array('images[]'), async (req, res, next) => {
-  const artworkId = req.params.id;
-  const userId =  req.session.passport.user;
+router.put(
+  "/:id",
+  isAuthenticated,
+  uploader.array("images[]"),
+  async (req, res, next) => {
+    const artworkId = req.params.id;
+    const userId = req.session.passport.user;
 
-  // assume there is only one image
-  // implement deleting images in the cloudanary later
-  const data = req.body;
-  delete data.images;
-  delete data.artist;
-  let uploadedImages = [];
-  if (req.files) {
-    uploadedImages = req.files.map(file => ({imageUrl: file.path, imgPublicId: file.filename}));
-  }
+    // assume there is only one image
+    // implement deleting images in the cloudanary later
+    const data = req.body;
+    delete data.images;
+    delete data.artist;
+    let uploadedImages = [];
+    if (req.files) {
+      uploadedImages = req.files.map((file) => ({
+        imageUrl: file.path,
+        imgPublicId: file.filename,
+      }));
+    }
 
-  try {
-    const updatedArtwork = await Artwork.findOneAndUpdate(
-      {user: userId, _id: artworkId}, {...data, $push: {images: {$each: uploadedImages}}}, {new: true}).populate("artist");
-    res.status(200).json(updatedArtwork);
-  } catch(error) {
-    console.log(error);
-    res.status(500).json({message: "Something is wrong with the backend", success: false});
+    try {
+      const updatedArtwork = await Artwork.findOneAndUpdate(
+        { user: userId, _id: artworkId },
+        { ...data, $push: { images: { $each: uploadedImages } } },
+        { new: true }
+      ).populate("artist");
+      res.status(200).json(updatedArtwork);
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({
+          message: "Something is wrong with the backend",
+          success: false,
+        });
+    }
   }
-});
+);
 
 module.exports = router;

@@ -20,7 +20,7 @@ const GallerySale = (props) => {
 
   const updateSalesItems = (offer) => {
     const requestID = offer._id;
-    const UpdatedRequests = [...requests].map(request => {
+    const UpdatedRequests = [...requests].map((request) => {
       if (request._id === requestID) return offer;
       return request;
     });
@@ -30,7 +30,6 @@ const GallerySale = (props) => {
     setActiveRequest(null);
   };
 
-
   const timeRemain = (time) => {
     const pastHours = Math.floor(
       (Date.now() - new Date(time).getTime()) / (1000 * 60 * 60)
@@ -39,70 +38,79 @@ const GallerySale = (props) => {
     return leftHours < 0 ? "Outdated" : `${leftHours}h Left`;
   };
 
-  const pendingRequest = requests.length ? requests
-    .filter((request) => request.status === "Pending")
-    .map((request, index) => {
-      return (
-        <div key={index} className="sales-pending-item">
-          {/* <span className="status">PENDING</span> */}
-          <span className="collector-request-name">{`${request.collector.firstName} ${request.collector.lastName}`}</span>
-          <span>
-            {request.preferredArtist
-              ? request.preferredArtist
-              : "No Preferred artist"}
-          </span>
-          <span>{request.medium}</span>
-          <span>{request.budget}K</span>
-          <span>{timeRemain(request.createdAt)}</span>
-          <button onClick={() => setActiveRequest(request)}>OPEN</button>
-        </div>
-      );
-    })
+  const pendingRequest = requests.length
+    ? requests
+        .filter((request) => request.status === "Pending")
+        .map((request, index) => {
+          return (
+            <div key={index} className="sales-pending-item">
+              {/* <span className="status">PENDING</span> */}
+              <span className="collector-request-name">{`${request.collector.firstName} ${request.collector.lastName}`}</span>
+              <span>
+                {request.preferredArtist
+                  ? request.preferredArtist
+                  : "No Preferred artist"}
+              </span>
+              <span>{request.medium}</span>
+              <span>{request.budget}K</span>
+              <span>{timeRemain(request.createdAt)}</span>
+              <button onClick={() => setActiveRequest(request)}>OPEN</button>
+            </div>
+          );
+        })
     : null;
 
   const inProgessRequest = requests.length
     ? requests
-      .filter((request) => request.status === "In Progress")
-      .map((request, index) => {
-        return (
-          <div key={index} className="sales-inProgress-item">
-            <span
-              className={
-                request.offerStatus === "Sent"
-                  ? "inProgress-sent"
-                  : "inProgress-accepted"
-              }
-            >
-              {request.offerStatus}
-            </span>
-            <span className="collector-request-name">{`${request.collector.firstName} ${request.collector.lastName}`}</span>
-            <span>{request.offeredArtwork.artist.name}</span>
-            <span>{request.medium}</span>
-            <span>{request.offeredArtwork.price}K</span>
-            <span>{timeRemain(request.createdAt)}</span>
-            <button>VIEW</button>
-          </div>
-        );
-      })
+        .filter((request) => request.status === "In Progress")
+        .map((request, index) => {
+          return (
+            <div key={index} className="sales-inProgress-item">
+              <span
+                className={
+                  request.offerStatus === "Sent"
+                    ? "inProgress-sent"
+                    : "inProgress-accepted"
+                }
+              >
+                {request.offerStatus}
+              </span>
+              <span className="collector-request-name">{`${request.collector.firstName} ${request.collector.lastName}`}</span>
+              <span>{request.offeredArtwork.artist.name}</span>
+              <span>{request.medium}</span>
+              <span>{request.offeredArtwork.price}K</span>
+              <span>{timeRemain(request.createdAt)}</span>
+              <button>VIEW</button>
+            </div>
+          );
+        })
     : null;
 
   const checkConfirmedRequest = (offerStatus) => {
-    if (offerStatus === "Cancelled") return <span className="status-confirmed-cancelled">Offer Cancelled</span>
-    if (offerStatus === "Paid") return <span className="status-confirmed-paid">Offer Paid</span>
-  }
+    if (offerStatus === "Cancelled")
+      return (
+        <span className="status-confirmed-cancelled">Offer Cancelled</span>
+      );
+    if (offerStatus === "Paid")
+      return <span className="status-confirmed-paid">Offer Paid</span>;
+  };
 
-  const confirmedRequest = requests.length ? requests.filter(request => request.status === "Confirmed").map((request, index) => {
-    return (
-      <div className="sales-pending-item">
-        {checkConfirmedRequest(request.offerStatus)}
-        <span>{`${request.collector.firstName} ${request.collector.lastName}`}</span>
-        <span>{request.offeredArtwork.artist.name}</span>
-        <span>{request.offeredArtwork.title}</span>
-        <span>{request.offeredArtwork.price}K€</span>
-        <button>VIEW</button>
-      </div>
-    )
-  }) : null;
+  const confirmedRequest = requests.length
+    ? requests
+        .filter((request) => request.status === "Confirmed")
+        .map((request, index) => {
+          return (
+            <div className="sales-pending-item">
+              {checkConfirmedRequest(request.offerStatus)}
+              <span>{`${request.collector.firstName} ${request.collector.lastName}`}</span>
+              <span>{request.offeredArtwork.artist.name}</span>
+              <span>{request.offeredArtwork.title}</span>
+              <span>{request.offeredArtwork.price}K€</span>
+              <button>VIEW</button>
+            </div>
+          );
+        })
+    : null;
 
   const dateConverter = (mongoDate) => {
     const date = new Date(mongoDate);
@@ -157,7 +165,12 @@ const GallerySale = (props) => {
         </button>
         {!isOffering ? (
           <div>
-            <button className="sales-btn-green" onClick={() => setIsOffering(true)}>MAKE AN OFFER</button>
+            <button
+              className="sales-btn-green"
+              onClick={() => setIsOffering(true)}
+            >
+              MAKE AN OFFER
+            </button>
             <button onClick={() => setActiveRequest(null)}>
               ASK FOR INFORMATION
             </button>
@@ -168,16 +181,14 @@ const GallerySale = (props) => {
   ) : null;
 
   return (
-    <div >
-      <div className="gallery-name-artists">
-        {props.galleryName}
-      </div>
+    <div>
+      <div className="gallery-name-artists">{props.galleryName}</div>
       <hr />
-      <div className='myArtists'>
+      <div className="myArtists">
         <ProfileSideBar content="sales" />
-        <div className='artistsContainer'>
-          <div className='myArtistsHeader'>
-            <hr /> <span className='subtitle'>MY SALES</span>
+        <div className="artistsContainer">
+          <div className="myArtistsHeader">
+            <hr /> <span className="subtitle">MY SALES</span>
           </div>
           <div id="formContainerField">
             <div className="gallery-status-bar">

@@ -3,8 +3,11 @@ import "./CollectorAcquisitions.2.css";
 import imageDefault from "./image-default.png";
 
 const ArtworkView = (props) => {
-
-  const [activeImage, setActiveImage] = useState(props.artwork.images.length ? props.artwork.images[0].imageUrl : imageDefault);
+  const [activeImage, setActiveImage] = useState(
+    props.artwork.images.length
+      ? props.artwork.images[0].imageUrl
+      : imageDefault
+  );
 
   const clickedImageHandler = (index) => {
     setActiveImage(props.artwork.images[index].imageUrl);
@@ -49,12 +52,19 @@ const ArtworkView = (props) => {
               </div>
             </div>
             <div className="inventory-btn-bottom">
-                <button onClick={props.closeArtworkView} className="btn-back-acquisitions">BACK</button>
+              <button
+                onClick={props.closeArtworkView}
+                className="btn-back-acquisitions"
+              >
+                BACK
+              </button>
             </div>
           </div>
           <div className="artwork-detail-info">
             <div className="artwork-view-info-field">
-              <div className="artwork-view-info-label inventory-artist">ARTIST </div>
+              <div className="artwork-view-info-label inventory-artist">
+                ARTIST{" "}
+              </div>
               <div className="artwork-view-info-field">
                 <span>
                   <b>{props.artwork.artist.name}</b>
@@ -68,7 +78,9 @@ const ArtworkView = (props) => {
               </div>
             </div>
             <div className="artwork-view-info-field">
-              <div className="artwork-view-info-label">Year of realization </div>
+              <div className="artwork-view-info-label">
+                Year of realization{" "}
+              </div>
               <div className="artwork-view-info-field">
                 <span>{props.artwork.realisationYear}</span>
               </div>
@@ -92,7 +104,9 @@ const ArtworkView = (props) => {
               </div>
             </div>
             <div className="artwork-view-info-field">
-              <div className="artwork-view-info-label">Materials and technique </div>
+              <div className="artwork-view-info-label">
+                Materials and technique{" "}
+              </div>
               <div className="artwork-view-info-field">
                 <span>{props.artwork.materialsAndTechnique}</span>
               </div>
@@ -113,7 +127,9 @@ const ArtworkView = (props) => {
               </div>
             </div>
             <div className="artwork-view-info-field">
-              <div className="artwork-view-info-label">Availability status </div>
+              <div className="artwork-view-info-label">
+                Availability status{" "}
+              </div>
               <div className="artwork-view-info-field">
                 <span>{props.artwork.status}</span>
               </div>
@@ -131,7 +147,9 @@ const ArtworkView = (props) => {
               </div>
             </div>
             <div className="artwork-view-info-field">
-              <div className="artwork-view-info-label">Price (excl. taxes) </div>
+              <div className="artwork-view-info-label">
+                Price (excl. taxes){" "}
+              </div>
               <div className="artwork-view-info-field">
                 <span>{props.artwork.price}</span>
               </div>
